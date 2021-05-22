@@ -2,19 +2,18 @@ from Functions.Function import AbstractFunction
 from Methods.AbstractMethod import AbstractMethod
 import numpy as np
 
-class AdamsMethod(AbstractMethod):
 
+class AdamsMethod(AbstractMethod):
     x_table: list
     y_table: list
     func: AbstractFunction
-    eps = 0.001
 
     coefficient_accuracy = 4
 
     def calculate(self, x_list: list, y_list: list, func: AbstractFunction):
 
         if len(y_list) < 4:
-            print('wrong')
+            print('Метод Адамса: для вычисление данным методом необходимо минимум 4 \'y\' ')
             return
 
         self.x_table = x_list
@@ -23,16 +22,15 @@ class AdamsMethod(AbstractMethod):
 
         h = self.x_table[1] - self.x_table[0]
 
-        for i in range(4, len(self.x_table)):
+        for i in range(3, len(self.x_table)):
             tmp = self.y_table[i - 1] + \
-                              h * self.func.calcDerivative(self.x_table[i - 1], self.y_table[i - 1]) + \
-                              h ** 2 * 1 / 2 * self.calcFirstFiniteDifferences(i - 1) + \
-                              h ** 3 * 5 / 12 * self.calcSecondFiniteDifferences(i - 1) + \
-                              h ** 4 * 3 / 8 * self.calcThirdFiniteDifferences(i - 1)
+                  h * self.func.calcDerivative(self.x_table[i - 1], self.y_table[i - 1]) + \
+                  h ** 2 * 1 / 2 * self.calcFirstFiniteDifferences(i - 1) + \
+                  h ** 3 * 5 / 12 * self.calcSecondFiniteDifferences(i - 1) + \
+                  h ** 4 * 3 / 8 * self.calcThirdFiniteDifferences(i - 1)
 
-            tmp = float(toFixed(tmp, int(-np.log10(self.eps))))
+            tmp = float(toFixed(tmp, int(-np.log10(self.func.eps))))
             self.y_table[i] = tmp
-
 
         return self.y_table
 
@@ -54,6 +52,9 @@ class AdamsMethod(AbstractMethod):
                3 * self.func.calcDerivative(self.x_table[index - 1], self.y_table[index - 1]) + \
                3 * self.func.calcDerivative(self.x_table[index - 2], self.y_table[index - 2]) - \
                self.func.calcDerivative(self.x_table[index - 3], self.y_table[index - 3])
+
+    def __str__(self):
+        return "Метод Адамса"
 
 def toFixed(numObj, digits=2):
     return f"{numObj:.{digits}f}"

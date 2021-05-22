@@ -4,7 +4,7 @@ import numpy as np
 import sys
 
 
-class ImprovedEulerMethod(AbstractMethod):
+class AdvancedEulerMethod(AbstractMethod):
     x_table = []
     y_table = []
 
@@ -25,8 +25,11 @@ class ImprovedEulerMethod(AbstractMethod):
                                                                                       self.y_table[i - 1]))
             )
                                 )
-            if self.y_table[i] >= np.inf:
-                print("Number Error")
-                sys.exit(-1)
+            # if self.y_table[i] >= np.inf:
+            #     print(f"Error: AdvancedEulerMethod -> inf")
+            #     sys.exit(-1)
 
         return self.y_table
+
+    def __str__(self):
+        return "Усов. метод Эйлера"

@@ -1,19 +1,21 @@
 from Functions.FirstFunction import FirstFunction
 from Functions.Function import AbstractFunction
 from Methods.AdamsMethod import AdamsMethod
-from Methods.ImprovedEulerMethod import ImprovedEulerMethod
+from Methods.AdvancedEulerMethod import AdvancedEulerMethod
 
 
+# Методы для ввода через консоль.
 def userRead():
     fun = getFunc()
     a, b = getBorders()
-    step = getH(fun.a, fun.b)
+    step = getH(a, b)
     eps = getEps()
     y = getY(a)
 
-    meth = getMethod()
+    # meth = getMethod()
+    fun.eps = eps
 
-    return fun, meth, a, b, step, eps, y
+    return fun, a, b, step, y
 
 
 def getH(a, b):
@@ -37,6 +39,8 @@ def getY(a):
             break
         except Exception:
             print("Неверный ввод")
+
+
     return y
 
 
@@ -75,7 +79,8 @@ def getBorders():
 
 def getFunc() -> AbstractFunction:
     print("Выберите функцию:\n"
-          "1) y' = y + (1 + x) * y^2")
+          "1) y' = y + (1 + x) * y^2\n"
+          "*богатый выбор")
 
     num_func = int(input())
 
@@ -96,4 +101,4 @@ def getMethod():
         except Exception:
             print("Неверный ввод")
 
-    return ImprovedEulerMethod() if num == 1 else AdamsMethod()
+    return AdvancedEulerMethod() if num == 1 else AdamsMethod()

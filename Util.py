@@ -4,16 +4,18 @@ import numpy as np
 # метод для отрисовки графика(-ов)
 from Functions.Function import AbstractFunction
 from Methods.AbstractMethod import AbstractMethod
-from Methods.ImprovedEulerMethod import ImprovedEulerMethod
+from Methods.AdvancedEulerMethod import AdvancedEulerMethod
 
 
-def drawGraphic(x_coords: list, y_coords: list, y_coords_correct: list, title=None, color='r') -> None:
+def drawGraphic(x_coords: list, y_coords: list, y_coords_correct: list, title=None, legend=None) -> None:
     ax = plt.gca()
     # ax.spines['left'].set_position('zero')
     # ax.spines['bottom'].set_position('zero')
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    plt.plot(x_coords, y_coords, "r", x_coords, y_coords_correct, "b")
+    plt.plot(x_coords, y_coords, 'r')
+    plt.plot(x_coords, y_coords_correct, 'b')
+    plt.legend([legend, "Точное решение"])
     plt.title(title)
     # plt.scatter(x_coords, y_coords)
 
@@ -31,10 +33,11 @@ def findFault(x_list: list, y_list: list, y_list_correct: list):
     return eps
 
 
+# Погрешность по Рунге
 def findRungeFault(x_list: list, y_list: list, method: AbstractMethod, func: AbstractFunction):
     y_list_half_step = []
     x_list_half_step = []
-    methodEuler = ImprovedEulerMethod()
+    methodEuler = AdvancedEulerMethod()
     step = x_list[1] - x_list[0]
     step = step / 2
 
@@ -53,3 +56,6 @@ def findRungeFault(x_list: list, y_list: list, method: AbstractMethod, func: Abs
             faultR = tmp_R
         pass
     return faultR
+
+def toFixedFloat(numObj, digits=2):
+    return float(f"{numObj:.{digits}f}")

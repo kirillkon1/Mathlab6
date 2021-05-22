@@ -2,10 +2,8 @@ from abc import ABC, abstractmethod
 
 
 class AbstractFunction(ABC):
+
     const: float  # Константа от диф. уравнения
-    a: float  # левая граница
-    b: float  # правая граница
-    step: float  # шаг разбиения
     eps: float  # точность
 
     def __init__(self) -> None:
